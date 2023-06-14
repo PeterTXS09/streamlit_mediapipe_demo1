@@ -36,7 +36,7 @@ st.sidebar.subheader('Parameter')
 ## Define available pages in selection box
 app_mode = st.sidebar.selectbox(
     'App Mode',
-    ['About','Image','Video']
+    ['About','Image','Video','Webcam']
 )
 
 # Resize Images to fit Container
@@ -306,3 +306,15 @@ elif app_mode == 'Video':
                 frame = image_resize(image=frame, width=640)
                 stframe.image(frame,channels='BGR', use_column_width=True)
 
+elif app_mode == 'Webcam':
+    st.title("Webcam Live Feed")
+    run = st.checkbox('Run')
+    FRAME_WINDOW = st.image([])
+    camera = cv2.VideoCapture(0)
+
+    while run:
+        _, frame = camera.read()
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        FRAME_WINDOW.image(frame)
+    else:
+        st.write('Stopped')
